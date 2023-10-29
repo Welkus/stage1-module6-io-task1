@@ -7,7 +7,7 @@ import java.io.IOException;
 public class FileReader {
 
 
-    public Profile getDataFromFile(File file) throws StudentFileNotFoundException {
+    public Profile getDataFromFile(File file) {
 
         String name;
         int age;
@@ -23,7 +23,11 @@ public class FileReader {
             phone = Long.parseLong(bufferedReader.readLine().split(": ")[1]);
 
         } catch (IOException e) {
-            throw new StudentFileNotFoundException("Student was not found");
+            try {
+                throw new StudentFileNotFoundException("Student was not found");
+            } catch (StudentFileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         return new Profile(name, age, email, phone);
